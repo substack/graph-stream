@@ -1,0 +1,30 @@
+{
+    "name" : "graph-stream",
+    "version" : "0.0.0",
+    "description" : "pipe a stream of data into a browser graph",
+    "main" : "index.js",
+    "directories" : {
+        "example" : "example"
+    },
+    "dependencies" : {
+        "raphael-browserify" : "~2.1.0"
+    },
+    "repository" : {
+        "type" : "git",
+        "url" : "git://github.com/substack/graph-stream.git"
+    },
+    "homepage" : "https://github.com/substack/graph-stream",
+    "keywords" : [
+        "graph",
+        "stream",
+        "data",
+        "browserify"
+    ],
+    "author" : {
+        "name" : "James Halliday",
+        "email" : "mail@substack.net",
+        "url" : "http://substack.net"
+    },
+    "license" : "MIT",
+    "engine" : { "node" : ">=0.6" }
+}

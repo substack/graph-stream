@@ -1,4 +1,4 @@
-var graph = require('../')(800, 600);
+var graph = require('../')(400, 300);
 graph.appendTo(document.body);
 
 var JSONStream = require('JSONStream');
