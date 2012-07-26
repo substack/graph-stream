@@ -34,7 +34,7 @@ Graph.prototype.write = function (name) {
         self._scheduled = setTimeout(function () {
             self._scheduled = undefined;
             self.render();
-        }, 1000);
+        }, 100);
     }
 };
 
