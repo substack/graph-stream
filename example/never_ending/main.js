@@ -7,5 +7,5 @@ var JSONStream = require('JSONStream');
 var parser = JSONStream.parse([ 'data', true, '17' ]);
 parser.pipe(graph);
 
-var u = 'http://' + window.location.host + '/' + Math.random() + '.json';
+var u = 'http://' + window.location.host + '/data.json';
 request(u).pipe(parser);
