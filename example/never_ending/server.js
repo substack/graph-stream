@@ -3,7 +3,7 @@ var ecstatic = require('ecstatic')(__dirname);
 var fs = require('fs');
 
 var server = http.createServer(function (req, res) {
-    if (req.url === '/data.json') {
+    if (req.method === 'GET' && req.url === '/data.json') {
         var s = createStream();
         s.pipe(res);
         
