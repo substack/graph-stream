@@ -2,6 +2,7 @@ var Stream = require('stream');
 var raphael = require('raphael-browserify');
 var inherits = require('util').inherits;
 var mrcolor = require('mrcolor');
+var fort = require('fort');
 
 module.exports = function (w, h, o) {
     return new Graph(w, h, o);
@@ -81,6 +82,20 @@ Graph.prototype.destroy = function () {};
 Graph.prototype.render = function () {
     var self = this;
     var keys = Object.keys(self.buckets);
+    if (self.opts.sort) {
+        var algo = self.opts.sort;
+        if (algo === true) algo = 'descend';
+        algo = algo.replace(/ing$/, '');
+        
+        var algos = [ 'ascend', 'descend' ];
+        if (algos.indexOf(algo) < 0) {
+            throw new Error('sorting algorithm not supported');
+        }
+        
+        keys = fort[algo](keys, function (key) {
+            return self.buckets[key];
+        });
+    }
     
     var values = keys.map(function (key) { return self.buckets[key] });
     var max = Math.max.apply(null, values);
