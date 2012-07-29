@@ -130,8 +130,6 @@ Graph.prototype.render = function () {
     
     var values = keys.map(function (key) { return self.buckets[key] });
     if (self.opts.other) (function () {
-        keys.push('other');
-        
         var hasKey = keys.reduce(function (acc, key) {
             acc[key] = true;
             return acc;
@@ -140,6 +138,8 @@ Graph.prototype.render = function () {
         values.push(Object.keys(self.buckets).reduce(function (sum, key) {
             return sum + (hasKey[key] ? 0 : 1);
         }, 0));
+        
+        keys.push('other');
     })();
     
     var max = Math.max.apply(null, values);
