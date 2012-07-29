@@ -2,8 +2,8 @@ var Stream = require('stream');
 var raphael = require('raphael-browserify');
 var inherits = require('util').inherits;
 
-module.exports = function (w, h) {
-    return new Graph(w, h);
+module.exports = function (w, h, o) {
+    return new Graph(w, h, o);
 };
 
 function Graph (width, height, opts) {
@@ -19,6 +19,13 @@ function Graph (width, height, opts) {
     }
     if (!opts) opts = {};
     if (opts.autoAxes === undefined) opts.autoAxes = true;
+    if (opts.autoAxes && opts.axisSize === undefined) {
+        opts.axisSize = {};
+    }
+    if (opts.axisSize.y === undefined) {
+        opts.axisSize.y = 50;
+    }
+    
     this.opts = opts;
     
     Stream.call(this);
@@ -26,6 +33,7 @@ function Graph (width, height, opts) {
     
     this.buckets = {};
     this.bars = {};
+    this.axes = { x : [], y : [] };
     
     this.element = document.createElement('div');
     this.paper = raphael(this.element, width, height);
@@ -75,9 +83,31 @@ Graph.prototype.render = function () {
     var max = Math.max.apply(null, values);
     var min = 0;
     
-    var spacing = { x : 10, y : 20 };
-    if (this.opts.autoAxes) {
-        spacing.x += 30;
+    var spacing = { x : 0, y : 0 };
+    if (self.opts.autoAxes) {
+        spacing.x += self.opts.axisSize.y;
+    }
+    
+    if (self.opts.autoAxes && (self.axes.y.length === 0
+    || max !== self.axes.y[0].value
+    || min !== self.axes.y[self.axes.y.length - 1].value)) {
+        self.axes.y.splice(0).forEach(function (label) {
+            label.element.remove();
+        });
+        
+        self.axes.y = [];
+        var labelCount = 5;
+        for (var i = 0; i < labelCount; i++) {
+            var y = (self.height - 20) * (1 - i / (labelCount - 1)) + 10;
+            var value = (max - min) * i / (labelCount - 1);
+            
+            var label = {
+                element : self.paper.text(self.opts.axisSize.y - 10, y, value),
+                value : value
+            };
+            label.element.attr('text-anchor', 'end');
+            self.axes.y.push(label);
+        }
     }
     
     keys.forEach(function (key, ix) {
