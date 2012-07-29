@@ -100,12 +100,32 @@ Graph.prototype.render = function () {
     if (self.opts.limit) {
         var other = self.opts.other === false ? false : true;
         var lim = self.opts.limit + (other ? -1 : 0);
-        var keys_ = keys;
-        keys.slice(lim).forEach(function (key) {
-            if (!self.bars[key]) return;
-            self.bars[key].attr('fill', 'transparent');
-        });
-        keys = keys.slice(0, lim);
+        if (self.opts.sort) {
+            keys.slice(lim).forEach(function (key) {
+                if (!self.bars[key]) return;
+                self.bars[key].attr('fill', 'transparent');
+            });
+            keys = keys.slice(0, lim);
+        }
+        else {
+            var sorted = fort.descend(keys, function (key) {
+                return self.buckets[key];
+            });
+            
+            sorted.slice(lim).forEach(function (key) {
+                if (!self.bars[key]) return;
+                self.bars[key].attr('fill', 'transparent');
+            });
+            
+            var hasKey = sorted.slice(0, lim)
+                .reduce(function (acc, key) {
+                    acc[key] = true;
+                    return acc;
+                }, {})
+            ;
+            
+            keys = keys.filter(function (key) { return hasKey[key] });
+        }
     }
     
     var values = keys.map(function (key) { return self.buckets[key] });
