@@ -6,11 +6,20 @@ module.exports = function (w, h) {
     return new Graph(w, h);
 };
 
-function Graph (width, height) {
-    if (Array.isArray(width)) {
+function Graph (width, height, opts) {
+    if (typeof width === 'object') {
+        opts = width;
+        width = opts.width;
+        height = opts.height;
+    }
+    else if (Array.isArray(width)) {
+        opts = height;
         height = width[1];
         width = width[0];
     }
+    if (!opts) opts = {};
+    if (opts.autoAxes === undefined) opts.autoAxes = true;
+    this.opts = opts;
     
     Stream.call(this);
     this.writable = true;
@@ -66,13 +75,18 @@ Graph.prototype.render = function () {
     var max = Math.max.apply(null, values);
     var min = 0;
     
+    var spacing = { x : 10, y : 20 };
+    if (this.opts.autoAxes) {
+        spacing.x += 30;
+    }
+    
     keys.forEach(function (key, ix) {
         var value = self.buckets[key];
         
-        var w = (self.width - 10) / keys.length;
-        var h = value / max * (self.height - 20);
+        var w = (self.width - spacing.x) / keys.length;
+        var h = value / max * (self.height - spacing.y);
         
-        var x = 5 + ix * w;
+        var x = spacing.x + 5 + ix * w;
         var y = self.height - 10 - h;
         
         var bar = self.bars[key];

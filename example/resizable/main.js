@@ -1,6 +1,6 @@
 var request = require('request');
 
-var graph = require('../')(getSize());
+var graph = require('../')(400, 300);
 graph.appendTo(document.body);
 
 var JSONStream = require('JSONStream');
@@ -14,9 +14,13 @@ window.addEventListener('resize', function () {
     graph.resize(getSize());
 });
 
+window.addEventListener('load', function () {
+    graph.resize(getSize());
+});
+
 function getSize () {
     return [
-        Math.max(50, (window.innerWidth || window.outerWidth) - 50),
-        Math.max(50, (window.innerHeight || window.outerHeight) - 20)
+        Math.max(50, window.innerWidth - 50),
+        Math.max(50, window.innerHeight - 20),
     ];
 }
