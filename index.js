@@ -129,6 +129,19 @@ Graph.prototype.render = function () {
     }
     
     var values = keys.map(function (key) { return self.buckets[key] });
+    if (self.opts.other) (function () {
+        keys.push('other');
+        
+        var hasKey = keys.reduce(function (acc, key) {
+            acc[key] = true;
+            return acc;
+        }, {});
+        
+        values.push(Object.keys(self.buckets).reduce(function (sum, key) {
+            return sum + (hasKey[key] ? 0 : 1);
+        }, 0));
+    })();
+    
     var max = Math.max.apply(null, values);
     var min = 0;
     
@@ -161,7 +174,7 @@ Graph.prototype.render = function () {
     }
     
     keys.forEach(function (key, ix) {
-        var value = self.buckets[key];
+        var value = values[ix];
         
         if (!self.colors[key]) self.colors[key] = self.nextColor();
         var color = self.colors[key];
