@@ -7,6 +7,11 @@ module.exports = function (w, h) {
 };
 
 function Graph (width, height) {
+    if (Array.isArray(width)) {
+        height = width[1];
+        width = width[0];
+    }
+    
     Stream.call(this);
     this.writable = true;
     
@@ -20,6 +25,16 @@ function Graph (width, height) {
 }
 
 inherits(Graph, Stream);
+
+Graph.prototype.resize = function (width, height) {
+    if (Array.isArray(width)) {
+        height = width[1];
+        width = width[0];
+    }
+    this.paper.setSize(width, height);
+    this.width = width;
+    this.height = height;
+};
 
 Graph.prototype.appendTo = function (target) {
     target.appendChild(this.element);
@@ -67,7 +82,12 @@ Graph.prototype.render = function () {
             bar.attr('stroke-width', 0);
         }
         else {
-            self.bars[key].attr({ x : x, y : y, width : w, height : h });
+            self.bars[key].attr({
+                x : x,
+                y : y,
+                width : w,
+                height : h
+            });
         }
     });
 };
