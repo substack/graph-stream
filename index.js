@@ -97,6 +97,17 @@ Graph.prototype.render = function () {
         });
     }
     
+    if (self.opts.limit) {
+        var other = self.opts.other === false ? false : true;
+        var lim = self.opts.limit + (other ? -1 : 0);
+        var keys_ = keys;
+        keys.slice(lim).forEach(function (key) {
+            if (!self.bars[key]) return;
+            self.bars[key].attr('fill', 'transparent');
+        });
+        keys = keys.slice(0, lim);
+    }
+    
     var values = keys.map(function (key) { return self.buckets[key] });
     var max = Math.max.apply(null, values);
     var min = 0;
@@ -143,12 +154,13 @@ Graph.prototype.render = function () {
         var bar = self.bars[key];
         if (!bar) {
             bar = self.bars[key] = self.paper.rect(x, y, w, h);
-            bar.attr('fill', 'rgb(' + color.rgb().join(',') + ')');
+            bar.attr('fill', 'rgba(' + color.rgb().join(',') + ',1)');
             bar.attr('stroke', 'transparent');
             bar.attr('stroke-width', 0);
         }
         else {
             self.bars[key].attr({
+                fill : 'rgba(' + color.rgb().join(',') + ',1)',
                 x : x,
                 y : y,
                 width : w,

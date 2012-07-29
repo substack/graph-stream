@@ -1,6 +1,6 @@
 var request = require('request');
 
-var graph = require('../')(400, 300, { sort : true });
+var graph = require('../')(400, 300, { sort : true, limit : 20 });
 graph.appendTo(document.body);
 
 var JSONStream = require('JSONStream');
