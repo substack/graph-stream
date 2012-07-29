@@ -1,6 +1,7 @@
 var Stream = require('stream');
 var raphael = require('raphael-browserify');
 var inherits = require('util').inherits;
+var mrcolor = require('mrcolor');
 
 module.exports = function (w, h, o) {
     return new Graph(w, h, o);
@@ -26,12 +27,14 @@ function Graph (width, height, opts) {
         opts.axisSize.y = 50;
     }
     
+    this.nextColor = mrcolor();
     this.opts = opts;
     
     Stream.call(this);
     this.writable = true;
     
     this.buckets = {};
+    this.colors = {};
     this.bars = {};
     this.axes = { x : [], y : [] };
     
@@ -113,6 +116,9 @@ Graph.prototype.render = function () {
     keys.forEach(function (key, ix) {
         var value = self.buckets[key];
         
+        if (!self.colors[key]) self.colors[key] = self.nextColor();
+        var color = self.colors[key];
+        
         var w = (self.width - spacing.x) / keys.length;
         var h = value / max * (self.height - spacing.y);
         
@@ -122,7 +128,8 @@ Graph.prototype.render = function () {
         var bar = self.bars[key];
         if (!bar) {
             bar = self.bars[key] = self.paper.rect(x, y, w, h);
-            bar.attr('fill', 'red');
+            bar.attr('fill', 'rgb(' + color.rgb().join(',') + ')');
+            bar.attr('stroke', 'transparent');
             bar.attr('stroke-width', 0);
         }
         else {
