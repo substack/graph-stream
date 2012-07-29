@@ -1,6 +1,6 @@
 {
     "name" : "graph-stream",
-    "version" : "0.0.0",
+    "version" : "0.0.1",
     "description" : "pipe a stream of data into a browser graph",
     "main" : "index.js",
     "directories" : {

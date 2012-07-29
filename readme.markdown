@@ -44,6 +44,7 @@ var graphStream = require('graph-stream')
 ```
 
 ## var graph = graphStream(width, height)
+## var graph = graphStream([ width, height ])
 
 Create a new readable stream `graph` that you can `.pipe()` data into.
 
@@ -54,6 +55,11 @@ The bar graph counts the number of times each string of data has been seen.
 ## graph.appendTo(target)
 
 Append the `graph.element` html element to `target`.
+
+## graph.resize(width, height)
+## graph.resize([ width, height ])
+
+Resize the graph.
 
 # install
 
