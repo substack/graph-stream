@@ -43,14 +43,23 @@ never-ending stream in example/
 var graphStream = require('graph-stream')
 ```
 
-## var graph = graphStream(width, height)
-## var graph = graphStream([ width, height ])
+## var graph = graphStream(width, height, opts)
+## var graph = graphStream([ width, height ], opts)
 
 Create a new readable stream `graph` that you can `.pipe()` data into.
 
 When you pipe data it will be rendered as a simple bar graph.
 
 The bar graph counts the number of times each string of data has been seen.
+
+Options:
+
+* opts.sort - Set an ordering algorithm to rank the bars in the graph.
+Set as a string value of `'ascend'` or `'descend'`. If true, uses `'descend'`.
+If `false`, doesn't sort. Default value: `false`.
+
+* opts.axisSize.x - Set the size of the x axis.
+* opts.axisSize.y - Set the size of the y axis.
 
 ## graph.appendTo(target)
 
