@@ -129,6 +129,7 @@ Graph.prototype.render = function () {
         for (var i = 0; i < labelCount; i++) {
             var y = (self.height - 20) * (1 - i / (labelCount - 1)) + 10;
             var value = (max - min) * i / (labelCount - 1);
+            if (max - min > 100) value = Math.round(value);
             
             var label = {
                 element : self.paper.text(self.opts.axisSize.y - 10, y, value),
