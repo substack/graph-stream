@@ -61,6 +61,9 @@ If `false`, doesn't sort. Default value: `false`.
 * opts.axisSize.x - Set the size of the x axis.
 * opts.axisSize.y - Set the size of the y axis.
 
+* opts.limit - how many bars to show
+* opts.other - whether to show a bar with the sum of all the bars not shown
+
 ## graph.appendTo(target)
 
 Append the `graph.element` html element to `target`.
