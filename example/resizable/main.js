@@ -21,6 +21,6 @@ window.addEventListener('load', function () {
 function getSize () {
     return [
         Math.max(50, window.innerWidth - 15),
-        Math.max(50, window.innerHeight - 20),
+        Math.max(50, window.innerHeight - 20)
     ];
 }
